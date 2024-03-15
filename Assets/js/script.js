@@ -11,13 +11,6 @@
 // 5) - ed emetto un messaggio in console 
 //     con il numero della cella cliccata.
 
-//Consigli del giorno:  :party_wizard:
-//Scriviamo prima cosa vogliamo fare passo passo in italiano, 
-//dividiamo il lavoro in micro problemi.
-//Ad esempio:
-//Di cosa ho bisogno per generare i numeri?
-//Proviamo sempre prima con dei console.log() per capire se stiamo ricevendo i dati giusti.
-
 //START
 
 // 1) - CREARE UN BOTTONE CHE GENERERA' LA GRIGLIA:
@@ -33,28 +26,40 @@ buttonPlay.addEventListener ('click', function () {
     gridGame.classList.toggle('d-none');
 });
 
+
 // 2) - OGNI CELLA HA UN NUMERO PROGRESSIVO da 1 a 100.
-//     CI SARANNO 10 CELLE PER OGNUNA DELLE 100 RIGHE.
-
-//creo costante array vuoto per pushare i numeri creati.
-// Creo una griglia 10 x 10. 
-// Ogni cella della griglia contiene un numero 
-// casuale da 1 a 100. I numeri presenti nelle celle 
-// ***non devono essere ripetuti*** 
-
-// finche non tutti i 100 numeri non sono presenti
-    // ne prendiamo uno random
-    // se gia non l'ho inserito lo inserisco
-    // e mi segno che l'ho inserito
+//     CI SARANNO 10 CELLE PER OGNUNA DELLE 100 RIGHE:
     
+    //array vuoto
     const blackList = [];
+
+    // il ciclo genera numeri da 1 a 100
     for(let i = 0; i < 100; i++) {
+         
+        //costante con funzione di generazione numeri random.
         const randomNumber = getRandomUniqueNumber(1, 100, blackList);
+        
+        //pusho numeri(1-100) in array
         blackList.push(randomNumber);
-        const square = generateSquare(randomNumber);;        
+        
+        //creo costante square con funzione di generazione square in html,
+        const square = generateSquare(randomNumber);     
+       
+        //appendo quadrati alla griglia
         gridGame.append(square);
-    }
+        
+// 3) - QUANDO L'UTENTE CLICCA SU OGNI CELLA,
+//     LA CELLA CLICCATA SI COLORA DI AZZURRO:
+        square.addEventListener('click', function () {       
+            square.classList.add('styles-selection'); 
+            console.log(randomNumber);  
+        });
+        };
+        
+    // ------- FUNCTIONS ------- //
     
+    // Funzione per generazione quadrato con all'interno uno span che a sua volta
+    // conterrà indice creato in ciclo for.
     function generateSquare(number) {
         const newSquare = document.createElement('div');
         newSquare.classList.add('square');
@@ -62,31 +67,26 @@ buttonPlay.addEventListener ('click', function () {
         return newSquare;
     }
     
-    // Funzione che genera un numero random tra min e max 
-    // che non è ancora presente nella blacklist
-    // min -> numero minimo
-    // max -> numero massimo
-    // blackList -> array di numeri che sono gia nella griglia
-    // return: un numero intero valido compreso tra min e max
-    function getRandomUniqueNumber(min, max, blackList) {
-        // parte dal pressuposto che il numero 
-        // non sia valido
-        // se il numero generato random non è presente nella blacklist
-        // allora è valido
-        // return del numero valido
+    // Generazione quadrato con all'interno uno span che a sua volta
+    // conterrà indice creato in ciclo for.
+    function getRandomUniqueNumber(min, max, blackList) { 
         let numbIsValid = false;
         let randomNumber;
         while(!numbIsValid) {
             randomNumber = getRndInteger(min, max);
-    
             if(!blackList.includes(randomNumber)) {
                 numbIsValid = true;
             }
-        }
-    
+        }  
         return randomNumber;
     }
     
+    //Funzione per generare un numero casuale intero compreso tra min e max.
     function getRndInteger(min, max) {
         return Math.floor(Math.random() * (max - min + 1) ) + min;
     }
+
+    
+
+
+    
