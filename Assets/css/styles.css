@@ -17,18 +17,12 @@
 }
 
 .square {
-    width: calc(100% / 8);
-    height: calc(100% / 8);
+    width: calc(100% / 10);
+    height: calc(100% / 10);
     background-color: cadetblue;
     border: 2px solid black;
     font-size: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.square.even {
-    background-color: red;
-}
-.square.odd {
-    background-color: green;
 }
