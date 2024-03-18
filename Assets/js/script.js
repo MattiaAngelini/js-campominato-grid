@@ -1,71 +1,59 @@
-// Bonus
-//Aggiungere una select accanto al bottone di generazione, che fornisca una scelta tra tre diversi livelli di difficoltà:
-
-//- con difficoltà 1 => 100 caselle, 
-//- con difficoltà 2 => 81 caselle
-//- con difficoltà 3 => 49 caselle
-
-// 1) - L'utente clicca su un bottone che genererà una griglia di 
-//     gioco quadrata.
-
-// 2) - Ogni cella ha un numero progressivo, da 1 a 100.
-//     ci saranno quindi 10 caselle per ognuna delle 10 righe.
-
-// 3) - Quando l'utente clicca su ogni cella, 
-
-// 4) - la cella cliccata si colora di azzurro 
-
-// 5) - ed emetto un messaggio in console 
-//     con il numero della cella cliccata.
-
+//Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe. Attenzione: nella stessa cella può essere posizionata al massimo una bomba, perciò nell’array delle bombe non potranno esserci due numeri uguali.
+//In seguito l'utente clicca su una cella: se il numero è presente nella lista dei numeri generati - abbiamo calpestato una bomba - la cella si colora di rosso e la partita termina. Altrimenti la cella cliccata si colora di azzurro e l'utente può continuare a cliccare sulle altre celle.
+//La partita termina quando il giocatore clicca su una bomba o quando raggiunge il numero massimo possibile di numeri consentiti (ovvero quando ha rivelato tutte le celle che non sono bombe).
+//Al termine della partita il software deve comunicare il punteggio, cioè il numero di volte che l’utente ha cliccato su una cella che non era una bomba.
 //START
 
-// 1) - CREARE UN BOTTONE CHE GENERERA' LA GRIGLIA:
-//      creo un evento click in cui rimuovo la classe d-none.
 
-//creo selettore per la griglia
+//selettore della griglia
 const gridGame = document.querySelector("#grid-game");
 
-//creo selettore per il tasto play 
+//selettore per il tasto play 
 const buttonPlay = document.querySelector("#button-play");
 
-
-
-//creo evento al play che fa comparire la griglia
+//evento al play che fa comparire la griglia
 buttonPlay.addEventListener ('click', function (){ 
+ 
+    //RESET dopo ogni nuovo click
+    gridGame.innerHTML = "";
 //creo selettore difficoltà selezionata.
 const choice = document.querySelector("#levels").value;
-    gridGame.classList.remove('d-none');
+    
     
     let numbersOfSquare;
-// Creazione numero dei quadrati in base scelta selezionata.
+    let numbersOfCells;
+// Condizione per la creazione numero dei quadrati in base al valore dell'input 
+// selezionato dall'utente.
 if (choice === 'easy') {
     numbersOfSquare = 100;
+    numbersOfCells = 10;
 } else if (choice === 'medium') {
     numbersOfSquare = 81;
+    numbersOfCells = 9;
 } else if (choice === 'hard') {
     numbersOfSquare = 49;
+    numbersOfCells = 7;
 }
 
-// la griglia compare al click, ora mi servono i quadrati.
-// ho a disposizione il numero degli elementi al click in base alla difficoltà.
-// devo creare una funzione che crea un numero di div pari a numbersOfsquare.
-
-  // Ciclo for che genera un div tante volte quanto il numero degli squares.
+  // Ciclo che genera un certo numero di div in base alla scelta dell'utente (condizione in alto).
   for (let i = 1; i <= numbersOfSquare; i++) {
-    const newSquare = createDiv(i);
-    gridGame.append(newSquare);
+    const newSquare = createDiv(i, numbersOfCells);
+    gridGame.append(newSquare); 
 }
+
 });
 
 // FUNCTIONS
-// Funzione che genera un div
-   function createDiv (number) {
-   let newDiv = document.createElement('div');
-   newDiv.classList.add('square');
-   newDiv.textContent = number; // Aggiungo il numero al contenuto del div
-   return newDiv; 
-}
+// Funzione che genera un div con classe square di dimensioni proporzionate al numero delle celle.
+function createDiv(number, numbersOfCells) {
+    let newDiv = document.createElement('div');
+    newDiv.classList.add('square');
+    newDiv.innerHTML = number; // Aggiungo il numero al contenuto del div
+    newDiv.style.width = `calc(100% / ${numbersOfCells})`;
+    newDiv.style.height = `calc(100% / ${numbersOfCells})`;
+    return newDiv;
+  }
+  
 
 
 
